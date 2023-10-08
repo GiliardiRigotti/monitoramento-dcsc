@@ -152,17 +152,17 @@ function App() {
     return data
   }
 
-  async function getApiItajaiDC05() {
+  async function getApiItajaiDC04() {
     const listLabel: string[] = []
     const listData: number[] = []
-    const response = await axios.get("https://intranet2.itajai.sc.gov.br/defesa-civil/api/telemetria?dc=DC05", {})
+    const response = await axios.get("https://intranet2.itajai.sc.gov.br/defesa-civil/api/telemetria?dc=DC04", {})
     response.data.forEach((item: { rio: number, datahora: string }) => {
       const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${new Date(item.datahora).getMonth() < 10 ? '0' + new Date(item.datahora).getMonth() : new Date(item.datahora).getMonth()} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
       listLabel.push(date)
       listData.push(item.rio)
     })
     const data: Data = {
-      local: 'ItajaiDC05',
+      local: 'ItajaiDC04',
       labels: listLabel,
       data: listData
     }
@@ -192,11 +192,10 @@ function App() {
   async function getApiItajai() {
     const dc02 = await getApiItajaiDC02()
     const dc03 = await getApiItajaiDC03()
-    const dc05 = await getApiItajaiDC05()
+    const dc04 = await getApiItajaiDC04()
     const dc06 = await getApiItajaiDC06()
-    const dc07 = await getApiItajaiDC07()
 
-    setItajai([dc02, dc03, dc05, dc06, dc07])
+    setItajai([dc02, dc03, dc04, dc06])
   }
 
   const GET_ESTACOES = gql`
@@ -277,7 +276,84 @@ function App() {
     }
   }, [estacoes])
 
-  if (isMobile) {
+  if (true) {
+    return (
+      <div className='App'>
+        <Line
+          options={{
+            scales: {
+              y: {
+                min: 1,
+                max: 10,
+                border: {
+                  display: false
+                },
+                grid: {
+                  color: function (context) {
+                    if (context.tick.value == 8.0) {
+                      return 'red';
+                    }
+                    if (context.tick.value == 6.0) {
+                      return 'blue';
+                    }
+                    if (context.tick.value == 3.0) {
+                      return 'orange';
+                    }
+                    if (context.tick.value == 2.5) {
+                      return 'green';
+                    }
+                    if (context.tick.value == 2.0) {
+                      return 'purple';
+                    }
+                    if (context.tick.value == 2.0) {
+                      return 'yellow';
+                    }
+                    return '#e5e5e5';
+                  },
+                },
+              }
+            }
+          }}
+          data={{
+            labels: labelsBlumenau,
+            datasets: [
+              {
+                backgroundColor: "blue",
+                data: dataBrusque,
+                label: "Nivel Brusque (Atualizado à cada hora)"
+              },
+              {
+                backgroundColor: "red",
+                data: dataBlumenau,
+                label: "Nivel Blumenau (Atualizado à cada hora)"
+              },
+              {
+                backgroundColor: "green",
+                data: itajai[0].data,
+                label: "Nivel Blumenau (Atualizado à cada hora)"
+              },
+              {
+                backgroundColor: "orange",
+                data: itajai[1].data,
+                label: "Nivel Blumenau (Atualizado à cada hora)"
+              },
+              {
+                backgroundColor: "purple",
+                data: itajai[2].data,
+                label: "Nivel Blumenau (Atualizado à cada hora)"
+              },
+              {
+                backgroundColor: "yellow",
+                data: itajai[3].data,
+                label: "Nivel Blumenau (Atualizado à cada hora)"
+              },
+            ]
+          }} />
+      </div>
+    )
+  }
+
+  if (false) {
     return (
       <div className="App">
 
