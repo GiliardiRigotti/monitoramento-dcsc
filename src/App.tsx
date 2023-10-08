@@ -66,13 +66,24 @@ type Data = {
 
 function App() {
   const [estacoes, setEstacao] = useState<Estacao[]>([])
-  const [labelsItajai, setLabelsItajai] = useState<string[]>([])
-  const [dataItajai, setDataItajai] = useState<number[]>([])
   const [itajai, setItajai] = useState<Data[]>([])
   const [labelsBrusque, setLabelsBrusque] = useState<string[]>([])
   const [dataBrusque, setDataBrusque] = useState<number[]>([])
   const [labelsBlumenau, setLabelsBlumenau] = useState<string[]>([])
   const [dataBlumenau, setDataBlumenau] = useState<number[]>([])
+  const [isMobile, setIsMobile] = useState(false)
+
+  const handleResize = () => {
+    if (window.innerWidth < 800) {
+      setIsMobile(true)
+    } else {
+      setIsMobile(false)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize)
+  }, [window])
 
   async function getApiBlumenau() {
     const listLabel: string[] = []
@@ -179,16 +190,6 @@ function App() {
 
 
   async function getApiItajai() {
-    /*const listLabel: string[] = []
-    const listData: number[] = []
-     const response = await axios.get("https://intranet2.itajai.sc.gov.br/defesa-civil/api/telemetria?dc=DC01", {})
-    response.data.forEach((item: { rio: number, datahora: string }) => {
-      const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${new Date(item.datahora).getMonth() < 10 ? '0' + new Date(item.datahora).getMonth() : new Date(item.datahora).getMonth()} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
-      listLabel.push(date)
-      listData.push(item.rio)
-    })
-    setLabelsItajai(listLabel)
-    setDataItajai(listData) */
     const dc02 = await getApiItajaiDC02()
     const dc03 = await getApiItajaiDC03()
     const dc05 = await getApiItajaiDC05()
@@ -262,22 +263,45 @@ function App() {
     getApiBlumenau()
     getApiItajai()
     if (estacoes.length > 0) {
+      const listLabel: string[] = []
+      const listData: number[] = []
       const brusqueData = estacoes.filter((item) => item.nome == "DCSC Brusque")
       brusqueData[0].nivel_rio_historico?.forEach((item) => {
         const date = `${new Date(item.t_stamp).getDate() < 10 ? '0' + new Date(item.t_stamp).getDate() : new Date(item.t_stamp).getDate()}/${new Date(item.t_stamp).getMonth() < 10 ? '0' + new Date(item.t_stamp).getMonth() : new Date(item.t_stamp).getMonth()} - ${new Date(item.t_stamp).getHours() < 10 ? '0' + new Date(item.t_stamp).getHours() : new Date(item.t_stamp).getHours()}:${new Date(item.t_stamp).getMinutes() < 10 ? '0' + new Date(item.t_stamp).getMinutes() : new Date(item.t_stamp).getMinutes()}`
         console.log(date)
-        labelsBrusque.push(date)
-        dataBrusque.push(item.nivel)
+        listLabel.push(date)
+        listData.push(item.nivel)
       })
+      setLabelsBrusque(listLabel)
+      setDataBrusque(listData)
     }
   }, [estacoes])
 
+  if (isMobile) {
+    return (
+      <div className="App">
 
-  return (
-    <div className="App">
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
-        <div style={{ display: 'flex', width: '40%' }}>
-          <Line data={{
+        <Line
+          options={{
+            scales: {
+              y: {
+                min: 0,
+                max: 10,
+                border: {
+                  display: false
+                },
+                grid: {
+                  color: function (context) {
+                    if (context.tick.value == 6.0) {
+                      return 'red';
+                    }
+                    return '#e5e5e5';
+                  },
+                },
+              }
+            }
+          }}
+          data={{
             labels: labelsBrusque,
             datasets: [
               {
@@ -286,9 +310,28 @@ function App() {
               }
             ]
           }} />
-        </div>
-        <div style={{ display: 'flex', width: '40%' }}>
-          <Line data={{
+
+        <Line
+          options={{
+            scales: {
+              y: {
+                min: 0,
+                max: 10,
+                border: {
+                  display: false
+                },
+                grid: {
+                  color: function (context) {
+                    if (context.tick.value == 8.0) {
+                      return 'red';
+                    }
+                    return '#e5e5e5';
+                  },
+                },
+              }
+            }
+          }}
+          data={{
             labels: labelsBlumenau,
             datasets: [
               {
@@ -297,6 +340,227 @@ function App() {
               },
             ],
           }} />
+
+        {
+          itajai.length > 0 &&
+          <>
+
+            <Line
+              options={{
+                scales: {
+                  y: {
+                    min: 0,
+                    max: 5,
+                    border: {
+                      display: false
+                    },
+                    grid: {
+                      color: function (context) {
+                        if (context.tick.value == 3.5) {
+                          return 'red';
+                        }
+                        return '#e5e5e5';
+                      },
+                    },
+                  }
+                }
+              }}
+              data={{
+                labels: itajai[0].labels,
+                datasets: [
+                  {
+                    data: itajai[0].data,
+                    label: "Nivel Rio Itajaí-Açu - Itajaí (Praça Celso Pereira da Silva) (Atualizado à cada 10 minutos )"
+                  },
+                ],
+              }} />
+
+            <Line
+              options={{
+                scales: {
+                  y: {
+                    min: 0,
+                    max: 5,
+                    border: {
+                      display: false
+                    },
+                    grid: {
+                      color: function (context) {
+                        if (context.tick.value == 2.5) {
+                          return 'red';
+                        }
+                        return '#e5e5e5';
+                      },
+                    },
+                  }
+                }
+              }}
+              data={{
+                labels: itajai[1].labels,
+                datasets: [
+                  {
+                    data: itajai[1].data,
+                    label: "Nivel Rio Itajaí-Mirim - Itajaí (Atualizado à cada 10 minutos ) - Fonte: Captação SEMASA"
+                  },
+                ],
+              }} />
+            <Line
+              options={{
+                scales: {
+                  y: {
+                    min: 0,
+                    max: 5,
+                    border: {
+                      display: false
+                    },
+                    grid: {
+                      color: function (context) {
+                        if (context.tick.value == 2.5) {
+                          return 'red';
+                        }
+                        return '#e5e5e5';
+                      },
+                    },
+                  }
+                }
+              }}
+              data={{
+                labels: itajai[2].labels,
+                datasets: [
+                  {
+                    data: itajai[2].data,
+                    label: "Nivel Rio Itajaí-Mirim - Itajaí (Curso antigo - Propriedade Privada) (Atualizado à cada 10 minutos ) - Fonte: Defesa Civíl Itajaí"
+                  },
+                ],
+              }} />
+            <Line
+              options={{
+                scales: {
+                  y: {
+                    min: 0,
+                    max: 10,
+                    border: {
+                      display: false
+                    },
+                    grid: {
+                      color: function (context) {
+                        if (context.tick.value == 1.25) {
+                          return 'red';
+                        }
+                        return '#e5e5e5';
+                      },
+                    },
+                  }
+                }
+              }}
+              data={{
+                labels: itajai[3].labels,
+                datasets: [
+                  {
+                    data: itajai[3].data,
+                    label: "Nivel Rio Itajaí-Mirim - Itajaí (Itamirim Clube de Campo) (Atualizado à cada 10 minutos )"
+                  },
+                ],
+              }} />
+            <Line
+              options={{
+                scales: {
+                  y: {
+                    min: 0,
+                    max: 5,
+                    border: {
+                      display: false
+                    },
+                    grid: {
+                      color: function (context) {
+                        if (context.tick.value == 2.5) {
+                          return 'red';
+                        }
+                        return '#e5e5e5';
+                      },
+                    },
+                  }
+                }
+              }}
+              data={{
+                labels: itajai[3].labels,
+                datasets: [
+                  {
+                    data: itajai[3].data,
+                    label: "Nivel Ribeirão da Murta - Itajaí (Portal) (Atualizado à cada 10 minutos ) - Fonte: Defesa Civíl Itajaí"
+                  },
+                ],
+              }} />
+          </>
+        }
+      </div>
+    );
+  }
+
+  return (
+    <div className="App">
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
+        <div style={{ display: 'flex', width: '40%' }}>
+          <Line
+            options={{
+              scales: {
+                y: {
+                  min: 0,
+                  max: 10,
+                  border: {
+                    display: false
+                  },
+                  grid: {
+                    color: function (context) {
+                      if (context.tick.value == 6.0) {
+                        return 'red';
+                      }
+                      return '#e5e5e5';
+                    },
+                  },
+                }
+              }
+            }}
+            data={{
+              labels: labelsBrusque,
+              datasets: [
+                {
+                  data: dataBrusque,
+                  label: "Nivel Brusque (Atualizado à cada hora) - Fonte: Defesa Civil SC"
+                }
+              ]
+            }} />
+        </div>
+        <div style={{ display: 'flex', width: '40%' }}>
+          <Line
+            options={{
+              scales: {
+                y: {
+                  min: 0,
+                  max: 10,
+                  border: {
+                    display: false
+                  },
+                  grid: {
+                    color: function (context) {
+                      if (context.tick.value == 8.0) {
+                        return 'red';
+                      }
+                      return '#e5e5e5';
+                    },
+                  },
+                }
+              }
+            }}
+            data={{
+              labels: labelsBlumenau,
+              datasets: [
+                {
+                  data: dataBlumenau,
+                  label: "Nivel Rio Itajaí-Açu - Blumenau (Atualizado à cada hora) - Fonte: AlertaBlu"
+                },
+              ],
+            }} />
         </div>
       </div>
       {
@@ -304,54 +568,116 @@ function App() {
         <>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
             <div style={{ display: 'flex', width: '40%' }}>
-              <Line data={{
-                labels: itajai[0].labels,
-                datasets: [
-                  {
-                    data: itajai[0].data,
-                    label: "Nivel Rio Itajaí-Açu - Itajaí (Atualizado à cada 10 minutos )"
-                  },
-                ],
-              }} />
-            </div>
-            <div style={{ display: 'flex', width: '40%' }}>
-              <Line data={{
-                labels: itajai[1].labels,
-                datasets: [
-                  {
-                    data: itajai[1].data,
-                    label: "Nivel Rio Itajaí-Açu - Itajaí (Atualizado à cada 10 minutos )"
-                  },
-                ],
-              }} />
-            </div>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
-            <div style={{ display: 'flex', width: '40%' }}>
-              <Line data={{
-                labels: itajai[2].labels,
-                datasets: [
-                  {
-                    data: itajai[2].data,
-                    label: "Nivel Rio Itajaí-Açu - Itajaí (Atualizado à cada 10 minutos )"
-                  },
-                ],
-              }} />
+              <Line
+                options={{
+                  scales: {
+                    y: {
+                      min: 0,
+                      max: 5,
+                      border: {
+                        display: false
+                      },
+                      grid: {
+                        color: function (context) {
+                          if (context.tick.value == 3.5) {
+                            return 'red';
+                          }
+                          return '#e5e5e5';
+                        },
+                      },
+                    }
+                  }
+                }}
+                data={{
+                  labels: itajai[0].labels,
+                  datasets: [
+                    {
+                      data: itajai[0].data,
+                      label: "Nivel Rio Itajaí-Açu - Itajaí (Praça Celso Pereira da Silva) (Atualizado à cada 10 minutos )"
+                    },
+                  ],
+                }} />
             </div>
             <div style={{ display: 'flex', width: '40%' }}>
               <Line
                 options={{
                   scales: {
                     y: {
+                      min: 0,
+                      max: 5,
                       border: {
                         display: false
                       },
                       grid: {
                         color: function (context) {
-                          if (context.tick.value > 0) {
+                          if (context.tick.value == 2.5) {
                             return 'red';
                           }
-                          return '#000000';
+                          return '#e5e5e5';
+                        },
+                      },
+                    }
+                  }
+                }}
+                data={{
+                  labels: itajai[1].labels,
+                  datasets: [
+                    {
+                      data: itajai[1].data,
+                      label: "Nivel Rio Itajaí-Mirim - Itajaí (Atualizado à cada 10 minutos ) - Fonte: Captação SEMASA"
+                    },
+                  ],
+                }} />
+            </div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
+            <div style={{ display: 'flex', width: '40%' }}>
+              <Line
+                options={{
+                  scales: {
+                    y: {
+                      min: 0,
+                      max: 5,
+                      border: {
+                        display: false
+                      },
+                      grid: {
+                        color: function (context) {
+                          if (context.tick.value == 2.5) {
+                            return 'red';
+                          }
+                          return '#e5e5e5';
+                        },
+                      },
+                    }
+                  }
+                }}
+                data={{
+                  labels: itajai[2].labels,
+                  datasets: [
+                    {
+                      data: itajai[2].data,
+                      label: "Nivel Rio Itajaí-Mirim - Itajaí (Curso antigo - Propriedade Privada) (Atualizado à cada 10 minutos ) - Fonte: Defesa Civíl Itajaí"
+                    },
+                  ],
+                }} />
+            </div>
+            <div style={{ display: 'flex', width: '40%' }}>
+              <Line
+                options={{
+                  scales: {
+                    y: {
+                      min: 0,
+                      max: 5,
+                      border: {
+                        display: false
+                      },
+                      grid: {
+                        color: function (context) {
+                          if (context.tick.value == 1.5) {
+                            return 'red';
+                          }
+                          return '#e5e5e5';
                         },
                       },
                     }
@@ -362,7 +688,40 @@ function App() {
                   datasets: [
                     {
                       data: itajai[3].data,
-                      label: "Nivel Rio Itajaí-Açu - Itajaí (Atualizado à cada 10 minutos )"
+                      label: "Nivel Rio Itajaí-Mirim - Itajaí (Itamirim Clube de Campo) (Atualizado à cada 10 minutos )"
+                    },
+                  ],
+                }} />
+            </div>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
+            <div style={{ display: 'flex', width: '40%' }}>
+              <Line
+                options={{
+                  scales: {
+                    y: {
+                      min: 0,
+                      max: 5,
+                      border: {
+                        display: false
+                      },
+                      grid: {
+                        color: function (context) {
+                          if (context.tick.value == 2.5) {
+                            return 'red';
+                          }
+                          return '#e5e5e5';
+                        },
+                      },
+                    }
+                  }
+                }}
+                data={{
+                  labels: itajai[3].labels,
+                  datasets: [
+                    {
+                      data: itajai[3].data,
+                      label: "Nivel Ribeirão da Murta - Itajaí (Portal) (Atualizado à cada 10 minutos ) - Fonte: Defesa Civíl Itajaí"
                     },
                   ],
                 }} />
@@ -370,7 +729,6 @@ function App() {
           </div>
         </>
       }
-
     </div>
   );
 }
