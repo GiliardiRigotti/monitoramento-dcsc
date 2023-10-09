@@ -74,7 +74,7 @@ function App() {
   const [isMobile, setIsMobile] = useState(false)
 
   const handleResize = () => {
-    if (window.innerWidth < 800) {
+    if (window.innerWidth < 1000) {
       setIsMobile(true)
     } else {
       setIsMobile(false)
@@ -260,6 +260,9 @@ function App() {
 
 
   useEffect(() => {
+    setTimeout(function(){
+      window.location.reload();
+   }, 300000);
     getApiBlumenau()
     getApiItajai()
     if (estacoes.length > 0) {
@@ -268,7 +271,6 @@ function App() {
       const brusqueData = estacoes.filter((item) => item.nome == "DCSC Brusque")
       brusqueData[0].nivel_rio_historico?.forEach((item) => {
         const date = `${new Date(item.t_stamp).getDate() < 10 ? '0' + new Date(item.t_stamp).getDate() : new Date(item.t_stamp).getDate()}/${new Date(item.t_stamp).getMonth() < 10 ? '0' + new Date(item.t_stamp).getMonth() : new Date(item.t_stamp).getMonth()} - ${new Date(item.t_stamp).getHours() < 10 ? '0' + new Date(item.t_stamp).getHours() : new Date(item.t_stamp).getHours()}:${new Date(item.t_stamp).getMinutes() < 10 ? '0' + new Date(item.t_stamp).getMinutes() : new Date(item.t_stamp).getMinutes()}`
-        console.log(date)
         listLabel.push(date)
         listData.push(item.nivel)
       })
@@ -282,17 +284,18 @@ function App() {
       <div className="App">
 
         <Line
+         style={{border: '5px solid green', alignItems:'center', justifyContent:'center', padding:10}}
           options={{
             scales: {
               y: {
                 min: 0,
-                max: 10,
+                max: 14,
                 border: {
                   display: false
                 },
                 grid: {
                   color: function (context) {
-                    if (context.tick.value == 6.0) {
+                    if (context.tick.value === 6.0) {
                       return 'red';
                     }
                     return '#e5e5e5';
@@ -312,17 +315,18 @@ function App() {
           }} />
 
         <Line
+         style={{border: '5px solid blue', alignItems:'center', justifyContent:'center', padding:10}}
           options={{
             scales: {
               y: {
                 min: 0,
-                max: 10,
+                max: 14,
                 border: {
                   display: false
                 },
                 grid: {
                   color: function (context) {
-                    if (context.tick.value == 8.0) {
+                    if (context.tick.value === 8.0) {
                       return 'red';
                     }
                     return '#e5e5e5';
@@ -346,6 +350,7 @@ function App() {
           <>
 
             <Line
+         style={{border: '5px solid #e5e5e5', alignItems:'center', justifyContent:'center', padding:10}}
               options={{
                 scales: {
                   y: {
@@ -356,7 +361,7 @@ function App() {
                     },
                     grid: {
                       color: function (context) {
-                        if (context.tick.value == 3.5) {
+                        if (context.tick.value === 3.5) {
                           return 'red';
                         }
                         return '#e5e5e5';
@@ -376,6 +381,7 @@ function App() {
               }} />
 
             <Line
+         style={{border: '5px solid #e5e5e5', alignItems:'center', justifyContent:'center', padding:10}}
               options={{
                 scales: {
                   y: {
@@ -386,7 +392,7 @@ function App() {
                     },
                     grid: {
                       color: function (context) {
-                        if (context.tick.value == 2.5) {
+                        if (context.tick.value === 2.5) {
                           return 'red';
                         }
                         return '#e5e5e5';
@@ -405,6 +411,7 @@ function App() {
                 ],
               }} />
             <Line
+         style={{border: '5px solid #e5e5e5', alignItems:'center', justifyContent:'center', padding:10}}
               options={{
                 scales: {
                   y: {
@@ -415,7 +422,7 @@ function App() {
                     },
                     grid: {
                       color: function (context) {
-                        if (context.tick.value == 2.5) {
+                        if (context.tick.value === 2.5) {
                           return 'red';
                         }
                         return '#e5e5e5';
@@ -434,6 +441,7 @@ function App() {
                 ],
               }} />
             <Line
+         style={{border: '5px solid #e5e5e5', alignItems:'center', justifyContent:'center', padding:10}}
               options={{
                 scales: {
                   y: {
@@ -444,7 +452,7 @@ function App() {
                     },
                     grid: {
                       color: function (context) {
-                        if (context.tick.value == 1.25) {
+                        if (context.tick.value === 1.25) {
                           return 'red';
                         }
                         return '#e5e5e5';
@@ -463,6 +471,7 @@ function App() {
                 ],
               }} />
             <Line
+         style={{border: '5px solid #e5e5e5', alignItems:'center', justifyContent:'center', padding:10}}
               options={{
                 scales: {
                   y: {
@@ -473,7 +482,7 @@ function App() {
                     },
                     grid: {
                       color: function (context) {
-                        if (context.tick.value == 2.5) {
+                        if (context.tick.value === 2.5) {
                           return 'red';
                         }
                         return '#e5e5e5';
@@ -500,19 +509,19 @@ function App() {
   return (
     <div className="App">
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
-        <div style={{ display: 'flex', width: '40%' }}>
+        <div style={{ display: 'flex', width: '49%',border: '5px solid green', alignItems:'center', justifyContent:'center', padding:10 }}>
           <Line
             options={{
               scales: {
                 y: {
                   min: 0,
-                  max: 10,
+                  max: 14,
                   border: {
                     display: false
                   },
                   grid: {
                     color: function (context) {
-                      if (context.tick.value == 6.0) {
+                      if (context.tick.value === 6.0) {
                         return 'red';
                       }
                       return '#e5e5e5';
@@ -531,19 +540,19 @@ function App() {
               ]
             }} />
         </div>
-        <div style={{ display: 'flex', width: '40%' }}>
+        <div style={{ display: 'flex', width: '49%',border: '5px solid blue', alignItems:'center', justifyContent:'center', padding:10  }}>
           <Line
             options={{
               scales: {
                 y: {
                   min: 0,
-                  max: 10,
+                  max: 14,
                   border: {
                     display: false
                   },
                   grid: {
                     color: function (context) {
-                      if (context.tick.value == 8.0) {
+                      if (context.tick.value === 8.0) {
                         return 'red';
                       }
                       return '#e5e5e5';
@@ -567,7 +576,7 @@ function App() {
         itajai.length > 0 &&
         <>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
-            <div style={{ display: 'flex', width: '40%' }}>
+            <div style={{ display: 'flex', width: '49%',border: '5px solid #e5e5e5', alignItems:'center', justifyContent:'center', padding:10  }}>
               <Line
                 options={{
                   scales: {
@@ -579,7 +588,7 @@ function App() {
                       },
                       grid: {
                         color: function (context) {
-                          if (context.tick.value == 3.5) {
+                          if (context.tick.value === 3.5) {
                             return 'red';
                           }
                           return '#e5e5e5';
@@ -598,7 +607,7 @@ function App() {
                   ],
                 }} />
             </div>
-            <div style={{ display: 'flex', width: '40%' }}>
+            <div style={{ display: 'flex', width: '49%',border: '5px solid #e5e5e5', alignItems:'center', justifyContent:'center', padding:10  }}>
               <Line
                 options={{
                   scales: {
@@ -610,7 +619,7 @@ function App() {
                       },
                       grid: {
                         color: function (context) {
-                          if (context.tick.value == 2.5) {
+                          if (context.tick.value === 2.5) {
                             return 'red';
                           }
                           return '#e5e5e5';
@@ -631,7 +640,7 @@ function App() {
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
-            <div style={{ display: 'flex', width: '40%' }}>
+            <div style={{ display: 'flex', width: '49%',border: '5px solid #e5e5e5', alignItems:'center', justifyContent:'center', padding:10  }}>
               <Line
                 options={{
                   scales: {
@@ -643,7 +652,7 @@ function App() {
                       },
                       grid: {
                         color: function (context) {
-                          if (context.tick.value == 2.5) {
+                          if (context.tick.value === 2.5) {
                             return 'red';
                           }
                           return '#e5e5e5';
@@ -662,7 +671,7 @@ function App() {
                   ],
                 }} />
             </div>
-            <div style={{ display: 'flex', width: '40%' }}>
+            <div style={{ display: 'flex', width: '49%',border: '5px solid #e5e5e5', alignItems:'center', justifyContent:'center', padding:10  }}>
               <Line
                 options={{
                   scales: {
@@ -673,8 +682,10 @@ function App() {
                         display: false
                       },
                       grid: {
+                        
                         color: function (context) {
-                          if (context.tick.value == 1.5) {
+                          if (context.tick.value === 1.5) {
+                            
                             return 'red';
                           }
                           return '#e5e5e5';
@@ -695,7 +706,7 @@ function App() {
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
-            <div style={{ display: 'flex', width: '40%' }}>
+            <div style={{ display: 'flex', width: '100%',border: '5px solid #e5e5e5', alignItems:'center', justifyContent:'center', padding:10  }}>
               <Line
                 options={{
                   scales: {
@@ -707,7 +718,7 @@ function App() {
                       },
                       grid: {
                         color: function (context) {
-                          if (context.tick.value == 2.5) {
+                          if (context.tick.value === 2.5) {
                             return 'red';
                           }
                           return '#e5e5e5';
