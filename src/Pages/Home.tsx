@@ -90,7 +90,7 @@ export function Home() {
         const listData: number[] = []
         const response = await axios.get("https://api.itajai.sc.gov.br/enchente/rios-blumenau", {})
         response.data.niveis.forEach((item: { nivel: number, horaLeitura: string }) => {
-            const date = `${new Date(item.horaLeitura).getDate() < 10 ? '0' + new Date(item.horaLeitura).getDate() : new Date(item.horaLeitura).getDate()}/${new Date(item.horaLeitura).getMonth() < 10 ? '0' + new Date(item.horaLeitura).getMonth() : new Date(item.horaLeitura).getMonth()} - ${new Date(item.horaLeitura).getHours() < 10 ? '0' + new Date(item.horaLeitura).getHours() : new Date(item.horaLeitura).getHours()}:${new Date(item.horaLeitura).getMinutes() < 10 ? '0' + new Date(item.horaLeitura).getMinutes() : new Date(item.horaLeitura).getMinutes()}`
+            const date = `${new Date(item.horaLeitura).getDate() < 10 ? '0' + new Date(item.horaLeitura).getDate() : new Date(item.horaLeitura).getDate()}/${(new Date(item.horaLeitura).getMonth() + 1) < 10 ? '0' + (new Date(item.horaLeitura).getMonth() + 1) : (new Date(item.horaLeitura).getMonth() + 1)} - ${new Date(item.horaLeitura).getHours() < 10 ? '0' + new Date(item.horaLeitura).getHours() : new Date(item.horaLeitura).getHours()}:${new Date(item.horaLeitura).getMinutes() < 10 ? '0' + new Date(item.horaLeitura).getMinutes() : new Date(item.horaLeitura).getMinutes()}`
             listLabel.push(date)
             listData.push(item.nivel)
         })
@@ -103,7 +103,7 @@ export function Home() {
         const listData: number[] = []
         const response = await axios.get("https://intranet2.itajai.sc.gov.br/defesa-civil/api/telemetria?dc=DC02", {})
         response.data.forEach((item: { rio: number, datahora: string }) => {
-            const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${new Date(item.datahora).getMonth() < 10 ? '0' + new Date(item.datahora).getMonth() : new Date(item.datahora).getMonth()} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
+            const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${(new Date(item.datahora).getMonth() + 1) < 10 ? '0' + (new Date(item.datahora).getMonth() + 1) : (new Date(item.datahora).getMonth() + 1)} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
             listLabel.push(date)
             listData.push(item.rio)
         })
@@ -121,7 +121,7 @@ export function Home() {
         const listData: number[] = []
         const response = await axios.get("https://intranet2.itajai.sc.gov.br/defesa-civil/api/telemetria?dc=DC07", {})
         response.data.forEach((item: { rio: number, datahora: string }) => {
-            const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${new Date(item.datahora).getMonth() < 10 ? '0' + new Date(item.datahora).getMonth() : new Date(item.datahora).getMonth()} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
+            const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${(new Date(item.datahora).getMonth() + 1) < 10 ? '0' + (new Date(item.datahora).getMonth() + 1) : (new Date(item.datahora).getMonth() + 1)} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
             listLabel.push(date)
             listData.push(item.rio)
         })
@@ -139,7 +139,7 @@ export function Home() {
         const listData: number[] = []
         const response = await axios.get("https://intranet2.itajai.sc.gov.br/defesa-civil/api/telemetria?dc=DC03", {})
         response.data.forEach((item: { rio: number, datahora: string }) => {
-            const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${new Date(item.datahora).getMonth() < 10 ? '0' + new Date(item.datahora).getMonth() : new Date(item.datahora).getMonth()} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
+            const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${(new Date(item.datahora).getMonth() + 1) < 10 ? '0' + (new Date(item.datahora).getMonth() + 1) : (new Date(item.datahora).getMonth() + 1)} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
             listLabel.push(date)
             listData.push(item.rio)
         })
@@ -157,7 +157,7 @@ export function Home() {
         const listData: number[] = []
         const response = await axios.get("https://intranet2.itajai.sc.gov.br/defesa-civil/api/telemetria?dc=DC05", {})
         response.data.forEach((item: { rio: number, datahora: string }) => {
-            const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${new Date(item.datahora).getMonth() < 10 ? '0' + new Date(item.datahora).getMonth() : new Date(item.datahora).getMonth()} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
+            const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${(new Date(item.datahora).getMonth() + 1) < 10 ? '0' + (new Date(item.datahora).getMonth() + 1) : (new Date(item.datahora).getMonth() + 1)} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
             listLabel.push(date)
             listData.push(item.rio)
         })
@@ -175,7 +175,7 @@ export function Home() {
         const listData: number[] = []
         const response = await axios.get("https://intranet2.itajai.sc.gov.br/defesa-civil/api/telemetria?dc=DC06", {})
         response.data.forEach((item: { rio: number, datahora: string }) => {
-            const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${new Date(item.datahora).getMonth() < 10 ? '0' + new Date(item.datahora).getMonth() : new Date(item.datahora).getMonth()} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
+            const date = `${new Date(item.datahora).getDate() < 10 ? '0' + new Date(item.datahora).getDate() : new Date(item.datahora).getDate()}/${(new Date(item.datahora).getMonth() + 1) < 10 ? '0' + (new Date(item.datahora).getMonth() + 1) : (new Date(item.datahora).getMonth() + 1)} - ${new Date(item.datahora).getHours() < 10 ? '0' + new Date(item.datahora).getHours() : new Date(item.datahora).getHours()}:${new Date(item.datahora).getMinutes() < 10 ? '0' + new Date(item.datahora).getMinutes() : new Date(item.datahora).getMinutes()}`
             listLabel.push(date)
             listData.push(item.rio)
         })
@@ -270,7 +270,7 @@ export function Home() {
             const listData: number[] = []
             const brusqueData = estacoes.filter((item) => item.nome == "DCSC Brusque")
             brusqueData[0].nivel_rio_historico?.forEach((item) => {
-                const date = `${new Date(item.t_stamp).getDate() < 10 ? '0' + new Date(item.t_stamp).getDate() : new Date(item.t_stamp).getDate()}/${new Date(item.t_stamp).getMonth() < 10 ? '0' + new Date(item.t_stamp).getMonth() : new Date(item.t_stamp).getMonth()} - ${new Date(item.t_stamp).getHours() < 10 ? '0' + new Date(item.t_stamp).getHours() : new Date(item.t_stamp).getHours()}:${new Date(item.t_stamp).getMinutes() < 10 ? '0' + new Date(item.t_stamp).getMinutes() : new Date(item.t_stamp).getMinutes()}`
+                const date = `${new Date(item.t_stamp).getDate() < 10 ? '0' + new Date(item.t_stamp).getDate() : new Date(item.t_stamp).getDate()}/${(new Date(item.t_stamp).getMonth() + 1) < 10 ? '0' + (new Date(item.t_stamp).getMonth() + 1) : (new Date(item.t_stamp).getMonth() + 1)} - ${new Date(item.t_stamp).getHours() < 10 ? '0' + new Date(item.t_stamp).getHours() : new Date(item.t_stamp).getHours()}:${new Date(item.t_stamp).getMinutes() < 10 ? '0' + new Date(item.t_stamp).getMinutes() : new Date(item.t_stamp).getMinutes()}`
                 listLabel.push(date)
                 listData.push(item.nivel)
             })

@@ -73,7 +73,7 @@ export function Blumenau() {
         const listData: number[] = []
         const response = await axios.get("https://api.itajai.sc.gov.br/enchente/rios-blumenau", {})
         response.data.niveis.forEach((item: { nivel: number, horaLeitura: string }) => {
-            const date = `${new Date(item.horaLeitura).getDate() < 10 ? '0' + new Date(item.horaLeitura).getDate() : new Date(item.horaLeitura).getDate()}/${new Date(item.horaLeitura).getMonth() < 10 ? '0' + new Date(item.horaLeitura).getMonth() : new Date(item.horaLeitura).getMonth()} - ${new Date(item.horaLeitura).getHours() < 10 ? '0' + new Date(item.horaLeitura).getHours() : new Date(item.horaLeitura).getHours()}:${new Date(item.horaLeitura).getMinutes() < 10 ? '0' + new Date(item.horaLeitura).getMinutes() : new Date(item.horaLeitura).getMinutes()}`
+            const date = `${new Date(item.horaLeitura).getDate() < 10 ? '0' + new Date(item.horaLeitura).getDate() : new Date(item.horaLeitura).getDate()}/${(new Date(item.horaLeitura).getMonth() + 1) < 10 ? '0' + (new Date(item.horaLeitura).getMonth() + 1) : (new Date(item.horaLeitura).getMonth() + 1)} - ${new Date(item.horaLeitura).getHours() < 10 ? '0' + new Date(item.horaLeitura).getHours() : new Date(item.horaLeitura).getHours()}:${new Date(item.horaLeitura).getMinutes() < 10 ? '0' + new Date(item.horaLeitura).getMinutes() : new Date(item.horaLeitura).getMinutes()}`
             listLabel.push(date)
             listData.push(item.nivel)
         })
@@ -89,36 +89,36 @@ export function Blumenau() {
     }, [])
 
     return (
-        <div className='App'>
-            <Line
-                options={{
-                    scales: {
-                        y: {
-                            min: 0,
-                            max: 14,
-                            border: {
-                                display: false
-                            },
-                            grid: {
-                                color: function (context) {
-                                    if (context.tick.value === 8.0) {
-                                        return 'red';
-                                    }
-                                    return '#e5e5e5';
+        <div style={{ display: "flex", flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 1000, height: 500 }}>
+                <Line
+                    options={{
+                        scales: {
+                            y: {
+                                border: {
+                                    display: false
                                 },
-                            },
+                                grid: {
+                                    color: function (context) {
+                                        if (context.tick.value === 8.0) {
+                                            return 'red';
+                                        }
+                                        return '#e5e5e5';
+                                    },
+                                },
+                            }
                         }
-                    }
-                }}
-                data={{
-                    labels: labelsBlumenau,
-                    datasets: [
-                        {
-                            data: dataBlumenau,
-                            label: "Nivel Rio Itajaí-Açu - Blumenau (Atualizado à cada hora) - Fonte: AlertaBlu"
-                        },
-                    ],
-                }} />
+                    }}
+                    data={{
+                        labels: labelsBlumenau,
+                        datasets: [
+                            {
+                                data: dataBlumenau,
+                                label: "Nivel Rio Itajaí-Açu - Blumenau (Atualizado à cada hora) - Fonte: AlertaBlu"
+                            },
+                        ],
+                    }} />
+            </div>
         </div>
     )
 }

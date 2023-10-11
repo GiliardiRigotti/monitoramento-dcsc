@@ -139,7 +139,7 @@ export function Brusque() {
             const listData: number[] = []
             const brusqueData = estacoes.filter((item) => item.nome == "DCSC Brusque")
             brusqueData[0].nivel_rio_historico?.forEach((item) => {
-                const date = `${new Date(item.t_stamp).getDate() < 10 ? '0' + new Date(item.t_stamp).getDate() : new Date(item.t_stamp).getDate()}/${new Date(item.t_stamp).getMonth() < 10 ? '0' + new Date(item.t_stamp).getMonth() : new Date(item.t_stamp).getMonth()} - ${new Date(item.t_stamp).getHours() < 10 ? '0' + new Date(item.t_stamp).getHours() : new Date(item.t_stamp).getHours()}:${new Date(item.t_stamp).getMinutes() < 10 ? '0' + new Date(item.t_stamp).getMinutes() : new Date(item.t_stamp).getMinutes()}`
+                const date = `${new Date(item.t_stamp).getDate() < 10 ? '0' + new Date(item.t_stamp).getDate() : new Date(item.t_stamp).getDate()}/${(new Date(item.t_stamp).getMonth() + 1) < 10 ? '0' + (new Date(item.t_stamp).getMonth() + 1) : (new Date(item.t_stamp).getMonth() + 1)} - ${new Date(item.t_stamp).getHours() < 10 ? '0' + new Date(item.t_stamp).getHours() : new Date(item.t_stamp).getHours()}:${new Date(item.t_stamp).getMinutes() < 10 ? '0' + new Date(item.t_stamp).getMinutes() : new Date(item.t_stamp).getMinutes()}`
                 listLabel.push(date)
                 listData.push(item.nivel)
             })
@@ -149,37 +149,38 @@ export function Brusque() {
     }, [estacoes])
 
     return (
-        <div className="App">
-
-            <Line
-                options={{
-                    scales: {
-                        y: {
-                            min: 0,
-                            max: 14,
-                            border: {
-                                display: false
-                            },
-                            grid: {
-                                color: function (context) {
-                                    if (context.tick.value === 6.0) {
-                                        return 'red';
-                                    }
-                                    return '#e5e5e5';
+        <div style={{ display: "flex", flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 1000, height: 500 }}>
+                <Line
+                    options={{
+                        scales: {
+                            y: {
+                                min: dataBrusque[0] - 1,
+                                max: dataBrusque[dataBrusque.length - 1] + 1,
+                                border: {
+                                    display: false
                                 },
-                            },
+                                grid: {
+                                    color: function (context) {
+                                        if (context.tick.value === 6.0) {
+                                            return 'red';
+                                        }
+                                        return '#e5e5e5';
+                                    },
+                                },
+                            }
                         }
-                    }
-                }}
-                data={{
-                    labels: labelsBrusque,
-                    datasets: [
-                        {
-                            data: dataBrusque,
-                            label: "Nivel Brusque (Atualizado à cada hora) - Fonte: Defesa Civil SC"
-                        }
-                    ]
-                }} />
+                    }}
+                    data={{
+                        labels: labelsBrusque,
+                        datasets: [
+                            {
+                                data: dataBrusque,
+                                label: "Nivel Brusque (Atualizado à cada hora) - Fonte: Defesa Civil SC"
+                            }
+                        ]
+                    }} />
+            </div>
         </div>
     )
 }

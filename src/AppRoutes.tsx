@@ -8,6 +8,7 @@ import { Home } from "./Pages/Home"
 import { Brusque } from "./Pages/Brusque"
 import { Blumenau } from "./Pages/Blumenau"
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { RioDoSul } from "./Pages/RioDoSul";
 
 const client = new ApolloClient({
     uri: "https://monitoramento.defesacivil.sc.gov.br/graphql",
@@ -22,6 +23,7 @@ export function AppRoutes() {
                     <Route path="/" element={<Home />} />
                     <Route path="/Brusque" element={<Brusque />} />
                     <Route path="/Blumenau" element={<Blumenau />} />
+                    <Route path="/Rio-do-sul" element={<RioDoSul />} />
                 </Routes>
             </ApolloProvider>
         </Router>
