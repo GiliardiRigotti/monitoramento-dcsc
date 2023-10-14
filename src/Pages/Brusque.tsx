@@ -155,8 +155,6 @@ export function Brusque() {
                     options={{
                         scales: {
                             y: {
-                                min: dataBrusque[0] - 1,
-                                max: dataBrusque[dataBrusque.length - 1] + 1,
                                 border: {
                                     display: false
                                 },
