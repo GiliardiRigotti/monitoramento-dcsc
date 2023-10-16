@@ -155,8 +155,6 @@ export function RioDoSul() {
                     options={{
                         scales: {
                             y: {
-                                min: data[0] - 1,
-                                max: data[data.length - 1] + 1,
                                 border: {
                                     display: false
                                 },
