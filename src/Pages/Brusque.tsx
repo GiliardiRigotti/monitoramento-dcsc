@@ -120,6 +120,7 @@ export function Brusque() {
     const updateEstacoes = (
         (data: { estacoes: Estacao[] }) => {
             setEstacao(data.estacoes)
+            console.log(data.estacoes)
         }
     );
 
@@ -137,12 +138,14 @@ export function Brusque() {
         if (estacoes.length > 0) {
             const listLabel: string[] = []
             const listData: number[] = []
-            const brusqueData = estacoes.filter((item) => item.nome == "DCSC Brusque")
+            const brusqueData = estacoes.filter((item) => item.nome == "SDC-SC Brusque")
+            console.log(brusqueData)
             brusqueData[0].nivel_rio_historico?.forEach((item) => {
                 const date = `${new Date(item.t_stamp).getDate() < 10 ? '0' + new Date(item.t_stamp).getDate() : new Date(item.t_stamp).getDate()}/${(new Date(item.t_stamp).getMonth() + 1) < 10 ? '0' + (new Date(item.t_stamp).getMonth() + 1) : (new Date(item.t_stamp).getMonth() + 1)} - ${new Date(item.t_stamp).getHours() < 10 ? '0' + new Date(item.t_stamp).getHours() : new Date(item.t_stamp).getHours()}:${new Date(item.t_stamp).getMinutes() < 10 ? '0' + new Date(item.t_stamp).getMinutes() : new Date(item.t_stamp).getMinutes()}`
                 listLabel.push(date)
                 listData.push(item.nivel)
             })
+            console.log(listData)
             setLabelsBrusque(listLabel)
             setDataBrusque(listData)
         }
